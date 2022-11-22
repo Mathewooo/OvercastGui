@@ -1,6 +1,5 @@
 package gg.overcast.gui.menu;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +15,9 @@ public abstract class PaginatedMenu extends Menu {
     protected int maxItemsPerPage = 28;
     protected int index = 0;
 
-    private final int[] borderIndexes = new int[]{17, 18, 26, 27, 35, 36};
+    private final int[] borderIndexes = new int[]{
+            17, 18, 26, 27, 35, 36
+    };
 
     protected PaginatedMenu(PlayerMenuUtility playerMenuUtility) {
         super(playerMenuUtility);
@@ -66,16 +67,17 @@ public abstract class PaginatedMenu extends Menu {
     @SuppressWarnings("unchecked")
     public void setMenuItems() {
         addMenuBorder();
-        List<Object> data = (List<Object>) getData();
+        var data = (List<Object>) getData();
         if (data != null && !data.isEmpty()) {
             for (int index = 0; index < getMaxItemsPerPage(); index++) {
-                index = getMaxItemsPerPage() * page + index;
-                Bukkit.getLogger().info(String.valueOf(index));
+                index = getMaxItemsPerPage()
+                        * page + index;
                 if (index >= data.size()) break;
-                if (data.get(index) != null)
+                if (data.get(index) != null) {
                     loopCode(
                             data.get(index)
                     );
+                }
             }
         }
     }
@@ -83,7 +85,7 @@ public abstract class PaginatedMenu extends Menu {
     public boolean prevPage() {
         if (page == 0) return false;
         else {
-            page = page - 1;
+            page--;
             reloadItems();
             return true;
         }
@@ -91,7 +93,7 @@ public abstract class PaginatedMenu extends Menu {
 
     public boolean nextPage() {
         if (!((index + 1) >= getData().size())) {
-            page = page + 1;
+            page++;
             reloadItems();
             return true;
         } else return false;
